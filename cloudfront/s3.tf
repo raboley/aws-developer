@@ -12,12 +12,13 @@ resource "random_string" "i" {
   upper = false
 }
 
+// bucket is private, and can only be seen via the cloudfront distribution
 resource "aws_s3_bucket" "i" {
   bucket = "my-cloudfront-${random_string.i.result}"
   acl = "private"
 }
 
-// Object is private, and can only be seen via the cloudfront distribution
+// Objects uploaded to S3 can be anywhere from 0KB -> 5GB in size.
 resource "aws_s3_bucket_object" "object" {
   bucket = aws_s3_bucket.i.bucket
   key    = "reality.jpg"
